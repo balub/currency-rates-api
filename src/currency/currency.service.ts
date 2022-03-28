@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ICurrency } from './currency.interface';
 import { createCurrency } from './dto/createCurrency.dto';
 import { returnCurrency } from './dto/returnCurrency.dto';
+import { updateRate } from './dto/updateRate.dto';
 
 @Injectable()
 export class CurrencyService {
@@ -28,11 +29,15 @@ export class CurrencyService {
     return this.currencies;
   }
 
-  updateCurrency() {
-    return 'Updated currency';
+  updateCurrency(id: number, updateRate: updateRate): returnCurrency {
+    const index = this.currencies.findIndex((item) => item.id == id);
+    this.currencies[index].rate = updateRate.rate;
+    return this.currencies[index];
   }
 
-  deleteCurrency() {
-    return 'Deleted Currency';
+  deleteCurrency(id: number): string {
+    if (!id) return 'Please Enter Valid ID';
+    this.currencies.splice(id - 1, 1);
+    return 'Item Removed Successfully!!';
   }
 }
