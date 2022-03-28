@@ -1,20 +1,33 @@
-import { Controller, Delete, Get, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
+import { CurrencyService } from './currency.service';
+import { createCurrency } from './dto/createCurrency.dto';
+import { returnCurrency } from './dto/returnCurrency.dto';
 
 @Controller('currency')
 export class CurrencyController {
+  constructor(private readonly currencyService: CurrencyService) {}
+
   @Get('/:currency_id')
-  getCurrency() {
-    return 'One currency';
+  getCurrency(@Param('currency_id') id): returnCurrency {
+    return this.currencyService.getCurrency(id);
   }
 
   @Get()
-  getAllCurrency() {
-    return 'All currencies';
+  getAllCurrency(): returnCurrency[] {
+    return this.currencyService.getAllCurrency();
   }
 
   @Post()
-  createCurrency() {
-    return 'Created currency';
+  createCurrency(@Body() createCurrency: createCurrency) {
+    return this.currencyService.createCurrency(createCurrency);
   }
 
   @Patch()
