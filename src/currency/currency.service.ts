@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { ICurrency } from './currency.interface';
 import { createCurrency } from './dto/createCurrency.dto';
 import { returnCurrency } from './dto/returnCurrency.dto';
@@ -6,6 +7,8 @@ import { updateRate } from './dto/updateRate.dto';
 
 @Injectable()
 export class CurrencyService {
+  constructor(private prismaService: PrismaService) {}
+
   currencies: ICurrency[] = [
     { id: 1, currency: 'INR', rate: 76.1 },
     { id: 2, currency: 'EUR', rate: 0.91 },
