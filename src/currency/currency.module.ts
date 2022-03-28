@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaModule } from 'src/prisma/prisma.module';
+
 import { CurrencyController } from './currency.controller';
 import { CurrencyService } from './currency.service';
 
 @Module({
-  imports: [PrismaService],
+  imports: [PrismaModule],
   controllers: [CurrencyController],
   providers: [CurrencyService],
 })

@@ -4,9 +4,13 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
+  ParseFloatPipe,
   Patch,
   Post,
 } from '@nestjs/common';
+import { Currency } from '@prisma/client';
+
 import { CurrencyService } from './currency.service';
 import { createCurrency } from './dto/createCurrency.dto';
 import { returnCurrency } from './dto/returnCurrency.dto';
@@ -17,30 +21,36 @@ export class CurrencyController {
   constructor(private readonly currencyService: CurrencyService) {}
 
   @Get('/:currency_id')
-  getCurrency(@Param('currency_id') id: number): returnCurrency {
+  async getCurrency(
+    @Param('currency_id', ParseIntPipe) id: number,
+  ): Promise<Currency> {
     return this.currencyService.getCurrency(id);
   }
 
   @Get()
-  getAllCurrency(): returnCurrency[] {
+  async getAllCurrency(): Promise<Currency[]> {
     return this.currencyService.getAllCurrency();
   }
 
   @Post()
-  createCurrency(@Body() createCurrency: createCurrency) {
+  async createCurrency(
+    @Body() createCurrency: createCurrency,
+  ): Promise<Currency> {
     return this.currencyService.createCurrency(createCurrency);
   }
 
   @Patch('/:currency_id')
-  updateCurrency(
-    @Param('currency_id') id: number,
-    @Body() updateRate: updateRate,
-  ): returnCurrency {
-    return this.currencyService.updateCurrency(id, updateRate);
+  async updateCurrency(
+    @Param('currency_id', ParseIntPipe) id: number,
+    @Body('rate', ParseFloatPipe) rate: number,
+  ): Promise<Currency> {
+    return this.currencyService.updateCurrency(id, rate);
   }
 
   @Delete('/:currency_id')
-  deleteCurrency(@Param('currency_id') id: number): string {
+  async deleteCurrency(
+    @Param('currency_id', ParseIntPipe) id: number,
+  ): Promise<string> {
     return this.currencyService.deleteCurrency(id);
   }
 }

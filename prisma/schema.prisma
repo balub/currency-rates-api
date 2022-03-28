@@ -13,5 +13,5 @@ datasource db {
 model Currency {
   id       Int    @id @default(autoincrement())
   currency String
-  rate     Int
+  rate     Float
 }

@@ -3,12 +3,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CurrencyService } from './currency/currency.service';
 import { CurrencyModule } from './currency/currency.module';
-import { PrismaServiceService } from './prisma-service/prisma-service.service';
 import { PrismaService } from './prisma/prisma.service';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
-  imports: [CurrencyModule],
+  imports: [CurrencyModule, PrismaModule],
   controllers: [AppController],
-  providers: [AppService, CurrencyService, PrismaServiceService, PrismaService],
+  providers: [AppService, CurrencyService],
 })
 export class AppModule {}
